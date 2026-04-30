@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Mail, Download, Briefcase, Code, User, GraduationCap, ChevronRight, ExternalLink } from 'lucide-react';
+import { Menu, X, Mail, Download, Briefcase, Code, GraduationCap, ChevronRight, ExternalLink } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 // --- Components ---
