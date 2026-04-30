@@ -398,9 +398,10 @@ const Contact = () => {
             </div>
             <div className="flex-1 bg-slate-50 p-8 rounded-3xl">
               <form className="space-y-4">
+                <input type="text" placeholder="Your Name" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Your Name" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
                   <input type="email" placeholder="Your Email" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
+                  <input type="tel" placeholder="Contact Number" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
                 </div>
                 <input type="text" placeholder="Subject" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
                 <textarea placeholder="Message" rows={5} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none"></textarea>
