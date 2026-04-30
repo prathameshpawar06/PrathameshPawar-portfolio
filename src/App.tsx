@@ -26,13 +26,19 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="container-custom flex justify-between items-center px-6">
-        <motion.div 
+        <motion.a 
+          href="#about"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold text-primary-600 tracking-tight"
+          className="flex items-center gap-2 group cursor-pointer"
         >
-          PP<span className="text-slate-900">.</span>
-        </motion.div>
+          <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white font-bold text-xl group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-primary-200">
+            P
+          </div>
+          <div className="text-2xl font-bold tracking-tight">
+            Pawar<span className="text-primary-600">.</span>
+          </div>
+        </motion.a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex space-x-8 items-center">
@@ -126,7 +132,7 @@ const Hero = () => {
               </a>
             </div>
             <div className="mt-10 flex justify-center md:justify-start gap-6 text-slate-400">
-              <a href="https://github.com" target="_blank" className="hover:text-primary-600 transition-colors"><FaGithub size={24} /></a>
+              <a href="https://github.com/prathameshpawar06" target="_blank" className="hover:text-primary-600 transition-colors"><FaGithub size={24} /></a>
               <a href="https://www.linkedin.com/in/prathamesh-pawar-216a39193" target="_blank" className="hover:text-primary-600 transition-colors"><FaLinkedin size={24} /></a>
               <a href="mailto:prathameshpawar06@gmail.com" className="hover:text-primary-600 transition-colors"><Mail size={24} /></a>
             </div>
@@ -360,6 +366,36 @@ const Skills = () => {
 };
 
 const Contact = () => {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch('https://formspree.io/f/xqenzjwy', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
   return (
     <section id="contact" className="section-padding bg-white">
       <div className="container-custom">
@@ -389,7 +425,7 @@ const Contact = () => {
                     <div className="text-sm font-bold text-slate-400 uppercase">LinkedIn</div>
                     <div className="text-lg font-bold text-slate-900 underline cursor-pointer">
                       <a href="https://www.linkedin.com/in/prathamesh-pawar-216a39193" target="_blank" rel="noopener noreferrer">
-                        linkedin.com/in/prathamesh-pawar
+                        linkedin.com/in/prathamesh-pawar-216a39193
                       </a>
                     </div>
                   </div>
@@ -397,16 +433,58 @@ const Contact = () => {
               </div>
             </div>
             <div className="flex-1 bg-slate-50 p-8 rounded-3xl">
-              <form className="space-y-4">
-                <input type="text" placeholder="Your Name" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input 
+                  type="text" 
+                  name="name"
+                  placeholder="Your Name" 
+                  required
+                  className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" 
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input type="email" placeholder="Your Email" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
-                  <input type="tel" placeholder="Contact Number" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
+                  <input 
+                    type="email" 
+                    name="email"
+                    placeholder="Your Email" 
+                    required
+                    className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" 
+                  />
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    placeholder="Contact Number" 
+                    className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" 
+                  />
                 </div>
-                <input type="text" placeholder="Subject" className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" />
-                <textarea placeholder="Message" rows={5} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none"></textarea>
-                <button className="w-full bg-primary-600 text-white py-4 rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 flex items-center justify-center gap-2 group">
-                  Send Message <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <input 
+                  type="text" 
+                  name="subject"
+                  placeholder="Subject" 
+                  required
+                  className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all" 
+                />
+                <textarea 
+                  name="message"
+                  placeholder="Message" 
+                  rows={5} 
+                  required
+                  className="w-full px-5 py-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-none"
+                ></textarea>
+                
+                {status === 'success' && (
+                  <p className="text-emerald-600 font-bold text-center">Message sent successfully!</p>
+                )}
+                {status === 'error' && (
+                  <p className="text-rose-600 font-bold text-center">Something went wrong. Please try again.</p>
+                )}
+
+                <button 
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full bg-primary-600 text-white py-4 rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === 'loading' ? 'Sending...' : 'Send Message'} 
+                  <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </form>
             </div>
@@ -421,12 +499,19 @@ const Footer = () => {
   return (
     <footer className="py-12 border-t border-slate-100 bg-white">
       <div className="container-custom px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div className="text-2xl font-bold text-primary-600">PP<span className="text-slate-900">.</span></div>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+            P
+          </div>
+          <div className="text-xl font-bold tracking-tight">
+            Pawar<span className="text-primary-600">.</span>
+          </div>
+        </div>
         <div className="text-slate-500 text-sm">
           © {new Date().getFullYear()} Prathamesh Pawar. All rights reserved.
         </div>
         <div className="flex gap-6 text-slate-400">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer"><FaGithub size={20} className="hover:text-primary-600 cursor-pointer" /></a>
+          <a href="https://github.com/prathameshpawar06" target="_blank" rel="noopener noreferrer"><FaGithub size={20} className="hover:text-primary-600 cursor-pointer" /></a>
           <a href="https://www.linkedin.com/in/prathamesh-pawar-216a39193" target="_blank" rel="noopener noreferrer"><FaLinkedin size={20} className="hover:text-primary-600 cursor-pointer" /></a>
           <a href="mailto:prathameshpawar06@gmail.com"><Mail size={20} className="hover:text-primary-600 cursor-pointer" /></a>
         </div>
